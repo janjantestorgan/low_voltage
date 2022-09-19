@@ -14,7 +14,7 @@ services:
     
   lv_hmp4040:
     image: centos:low_voltage
-    build: .
+    build: ../..
     restart: always
     stdin_open: true
     tty: true 
