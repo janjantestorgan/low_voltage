@@ -24,7 +24,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Upgrade pip
       run: | 
-        python -m pip install --upgrade pip
+        python3 -m pip install --upgrade pip
         pip --version
     - name: Print environment
       run: |
@@ -37,8 +37,9 @@ jobs:
     - name: Docker-compose start mqtt and low_voltage
       run: | 
         cd docker/test_tracker_dcs_low_voltage
-        docker-compose up -d 
-        cd -
-    - name: Run black --check .
-      run: black --check . --exclude _actions
+        ls -ltrh
+      #docker-compose up -d 
+      #cd -
+   # - name: Run black --check .
+   #   run: black --check . --exclude _actions
     
