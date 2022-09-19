@@ -1,5 +1,5 @@
-FROM  centos:centos7
-#FROM  --platform=linux/amd64 centos:centos7 
+#FROM  centos:centos7
+FROM  --platform=linux/amd64 centos:centos7 
 
 WORKDIR /usr/app
 
@@ -22,12 +22,13 @@ WORKDIR /usr/app/low_voltage/
 COPY requirements ./requirements
 RUN python3 -m pip install --no-cache-dir -r requirements/docker.txt
 
-COPY tracker_dcs_low_voltage/low_voltage/ ./
+
 
 COPY setup.py ./
 RUN python3 -m pip install -e .
+COPY tracker_dcs_low_voltage/low_voltage/ ./
 #===rpm and zip packages (provided by Pierre) are in driver directory====//
-COPY tracker_dcs_low_voltage/driver ./
+COPY tracker_dcs_low_voltage/driver/ ./
 
 ##===install the rsvisa-centos_.rpm package==============//
 RUN rpm -ivh --nodeps rsvisa-centos_5.12.1-1.x86_64.rpm
@@ -43,6 +44,7 @@ RUN yum install -y libusb
 RUN yum install -y libivivisa0
 RUN yum install -y ni-icp.noarch
 RUN yum install -y ni-visa
+RUN touch /tmp/smap_install_ni_anyway
 RUN yum install -y ni-daqmx
 RUN yum install -y kernel-devel
 
