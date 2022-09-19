@@ -36,7 +36,7 @@ jobs:
     
     - name: Docker-compose start mqtt and low_voltage
       run: | 
-        cd docker/test_tracker_dcs_low_voltage
+        cd docker/tracker_dcs_low_voltage
         docker-compose up -d 
         cd -
     - name: Run black --check .
