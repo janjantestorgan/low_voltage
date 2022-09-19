@@ -2,7 +2,8 @@ FROM  centos:centos7
 #FROM  --platform=linux/amd64 centos:centos7 
 
 WORKDIR /usr/app
-
+COPY requirements ./requirements
+RUN python3 -m pip install --no-cache-dir -r requirements/docker.txt
 RUN yum update -y
 RUN yum install -y python3
 
@@ -20,7 +21,8 @@ RUN yum install -y unzip
 
 WORKDIR /usr/app/low_voltage/
 COPY tracker_dcs_low_voltage/low_voltage/ ./
-
+COPY setup.py ./
+RUN pip install -e .
 #===rpm and zip packages (provided by Pierre) are in driver directory====//
 COPY tracker_dcs_low_voltage/driver ./
 
@@ -41,6 +43,6 @@ RUN yum install -y ni-visa
 RUN yum install -y ni-daqmx
 RUN yum install -y kernel-devel
 
-COPY requirements.txt ./
-RUN python3 -m pip install --no-cache-dir -r requirements.txt
-COPY setup.py ./
+#COPY requirements.txt ./
+#RUN python3 -m pip install --no-cache-dir -r requirements.txt
+#COPY setup.py ./
