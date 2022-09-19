@@ -13,8 +13,8 @@ services:
       - ./mosquitto/config:/mosquitto/config
     
   lv_hmp4040:
-    image: centos:dcs_low_voltage
-    build: ./low_voltage
+    image: centos:low_voltage
+    build: .
     restart: always
     stdin_open: true
     tty: true 
