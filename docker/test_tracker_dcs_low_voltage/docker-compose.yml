@@ -16,8 +16,8 @@ services:
     image: centos:low_voltage
   #  build: ../.. ###
     restart: always
-    stdin_open: true
-    tty: true 
+    #stdin_open: true
+    #tty: true 
     volumes:
       - low_voltage:/usr/app/low_voltage/
 
