@@ -4,8 +4,8 @@
 name: Python package
 
 on:
-  #pull_request:
-  push:
+  pull_request:
+  #push:
     branches: [ main ]
 
 jobs:
@@ -42,7 +42,7 @@ jobs:
         ls
         echo $HOME
         docker-compose up -d 
-      #cd -
-   # - name: Run black --check .
-   #   run: black --check . --exclude _actions
+        cd -
+    - name: Run black --check .
+      run: black --check . --exclude _actions
     
