@@ -39,7 +39,7 @@ jobs:
     #    cd docker/test_tracker_dcs_low_voltage
     #    pwd
     #    echo "---------------------"
-    #    ls
+    #    
     #    echo $HOME
     #    docker-compose up -d 
     #    cd -
