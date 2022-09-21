@@ -45,4 +45,10 @@ jobs:
     #    cd -
     - name: Run black --check .
       run: black --check . --exclude _actions
+    - name: Test with pytest
+      run: |
+        cd unittests
+        pip install pytest-cov
+        pytest --cov=../ --cov-report=xml
+        ls
     
