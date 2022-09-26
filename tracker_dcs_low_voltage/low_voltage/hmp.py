@@ -17,6 +17,8 @@ class Channel(object):
 
 
 class HMP(object):
+    #rm = visa.ResourceManager("")
+    #HMP4040 = rm.open_resource("ASRL/dev/cu.MiTrueWirelessEBsBasic2::INSTR")
     rm = visa.ResourceManager("/usr/lib64/librsvisa.so@ivi")
     HMP4040 = rm.open_resource("TCPIP::192.168.1.202::10002::SOCKET")
     num_of_channels = 5

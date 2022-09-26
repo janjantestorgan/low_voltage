@@ -1,0 +1,9 @@
+pyvisa>=1.8
+pyvisa-py
+#rpm
+#deltarpm
+unzip
+libusb
+#libivivisa0
+#ni-icp.noarch
+#ni-visa 

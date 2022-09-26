@@ -52,15 +52,15 @@ jobs:
         python3 -m pip install pytest-cov
         python3 -m pytest --cov=../ --cov-report=xml
         ls
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
-      with:
-        directory: ./unittests
-        env_vars: OS,PYTHON
-        fail_ci_if_error: true
-        #path: ./coverage.xml
-        flags: unittests
-        #name: codecov-umbrella
+    #- name: Upload coverage to Codecov
+    #  uses: codecov/codecov-action@v3
+    #  with:
+    #    directory: ./unittests
+    #    env_vars: OS,PYTHON
+    #    fail_ci_if_error: true
+        #files: ./coverage.xml
+    #    flags: unittests
+    #    name: codecov-umbrella
         #path_to_write_report: ./coverage/codecov_report.txt
-        #verbose: true
+    #    verbose: true
    
