@@ -4,9 +4,9 @@
 name: Python package
 
 on:
-  #pull_request:
-  push:
-    branches: [ main ]
+  pull_request:
+  #push:
+    branches: [ dev, main ]
 
 jobs:
   build:
@@ -25,24 +25,34 @@ jobs:
     - name: Upgrade pip
       run: | 
         python3 -m pip install --upgrade pip
-        pip --version
+        python3 -m pip --version
     - name: Print environment
       run: |
         env
     - name: Install dependencies
       run: |
-        pip install -r requirements/local.txt
-        pip install -e .
+        python3 -m pip install -r requirements/local.txt
+        python3 -m pip install -e .
     
     - name: Docker-compose start mqtt and low_voltage
       run: | 
-        cd docker/test_tracker_dcs_low_voltage
+        cd docker/tedd_low_voltage
         pwd
         echo "---------------------"
         ls
         echo $HOME
         docker-compose up -d 
-      #cd -
-   # - name: Run black --check .
-   #   run: black --check . --exclude _actions
+        docker-compose ps -a
+        cd - 
+    - name: Run black --check .
+      run: black --check . --exclude _actions
+    - name: Test with pytest
+      run: |
+        cd unittests
+        python3 -m pytest
+      
+      #  python3 -m pip install pytest-cov
+      #  python3 -m pytest --cov=../ --cov-report=xml
+        ls
+   
     
