@@ -14,7 +14,7 @@ WORKDIR /usr/app/low_voltage/
 RUN yum install -y libusb && \
     yum install -y libivivisa0 && \
     yum install -y ni-icp.noarch && \
-    yum install -y ni-visa && \
-    touch /tmp/smap_install_ni_anyway && \
-    yum install -y ni-daqmx && \
-    yum install -y kernel-devel
+    yum install -y ni-visa 
+    #touch /tmp/smap_install_ni_anyway && \
+    #yum install -y ni-daqmx && \
+    #yum install -y kernel-devel
