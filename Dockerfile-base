@@ -1,0 +1,33 @@
+# low_voltage_base
+#
+# This Docker image built will be triggered by only in "base*" tag push
+# Example:
+#  git tag -a base-0.0.1 -m "Update low_voltage_base image"
+#  git push origin base-0.0.1
+# See .github/workflows/docker-base-build.yml
+# It will be used as base image for "low_voltage" image
+#
+FROM --platform=linux/amd64 centos:centos7
+
+ENV WDIR=/usr/app
+WORKDIR $WDIR
+
+RUN yum update -y && \
+#=====Preparations===========\
+    yum provides applydeltarpm && \
+    touch /tmp/smap_install_ni_anyway && \
+#====install rpm & deltarpm====================//
+    yum install -y \
+          python3 \
+          rpm \
+          deltarpm \
+          unzip \
+          libusb \
+          libivivisa0 \
+          ni-icp.noarch \
+          ni-visa \
+          ni-daqmx \
+          kernel-devel && \
+    yum clean all && rm -rf /var/cache/yum && \
+    python3 -m pip install --upgrade && \
+    python3 -m pip install -U PyVISA-py PyVISA

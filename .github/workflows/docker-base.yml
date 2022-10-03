@@ -1,0 +1,46 @@
+# This GH action will be triggered only in "base*" tag push
+# Example:
+#  git tag -a base-0.0.1 -m "Update low_voltage_base image"
+#  git push origin base-0.0.1
+
+name: Docker-Image-Build-Publish
+on:
+  push:
+    tags:
+      - 'base*'
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME_LOW_VOLTAGE_BASE: low_voltage_base
+
+jobs:
+  build-low-voltage-base:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Docker metadata
+        id: meta
+        uses: docker/metadata-action@v3
+        with:
+          images: ${{ env.REGISTRY }}/${{ github.actor }}/${{ env.IMAGE_NAME_LOW_VOLTAGE_BASE }}
+          tags: |
+            type=ref,event=tag
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+      - name: Login to ghcr
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      - name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: ./docker/low_voltage/Dockerfile-base
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
