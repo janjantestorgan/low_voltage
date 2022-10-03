@@ -1,5 +1,5 @@
 # This GH action will be triggered only in "base*" tag push
-# Example:
+# e.g:
 #  git tag -a base-0.0.1 -m "Update low_voltage_base image"
 #  git push origin base-0.0.1
 
@@ -12,6 +12,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME_LOW_VOLTAGE_BASE: low_voltage_base
+#  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   build-low-voltage-base:
@@ -40,7 +41,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
-          file: .Dockerfile-base
+          file: ./Dockerfile-base
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
