@@ -5,22 +5,43 @@ ENV WDIR=/usr/app
 WORKDIR $WDIR
 
 RUN yum update -y && \
-yum provides applydeltarpm && \
-touch /tmp/smap_install_ni_anyway && \
-yum install -y \
-          python3 \
-          rpm \
-          deltarpm \
-          unzip \
-          libusb \
-          libivivisa0 \
-          ni-icp.noarch \
-          ni-visa \
-          ni-daqmx \
-          kernel-devel && \
-    yum clean all && rm -rf /var/cache/yum && \
+    yum install -y python3 && \
     python3 -m pip install --upgrade && \
     python3 -m pip install -U PyVISA-py PyVISA
+
+
+#====install rpm & deltarpm====================// 
+RUN yum install -y rpm && \
+    yum provides applydeltarpm && \
+    yum install -y deltarpm && \
+    yum install -y unzip 
+#===other packages====//
+RUN yum install -y libusb && \
+    yum install -y libivivisa0 && \
+    yum install -y ni-icp.noarch && \
+    yum install -y ni-visa && \
+    touch /tmp/smap_install_ni_anyway && \
+    yum install -y ni-daqmx && \
+    yum install -y kernel-devel && \
+    yum clean all && rm -rf /var/cache/yum 
+
+#RUN yum update -y && \
+#yum provides applydeltarpm && \
+#touch /tmp/smap_install_ni_anyway && \
+#yum install -y \
+#          python3 \
+#          rpm \
+#          deltarpm \
+#          unzip \
+#          libusb \
+#          libivivisa0 \
+#          ni-icp.noarch \
+#          ni-visa \
+#          ni-daqmx \
+#          kernel-devel && \
+#    yum clean all && rm -rf /var/cache/yum && \
+#    python3 -m pip install --upgrade && \
+#    python3 -m pip install -U PyVISA-py PyVISA
 
 
 
