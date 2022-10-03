@@ -1,5 +1,5 @@
-# This GH action will be triggered only in "base*" tag push
-# e.g:
+# This GH action will be triggered only in "base*" tag pus
+# Example:
 #  git tag -a base-0.0.1 -m "Update low_voltage_base image"
 #  git push origin base-0.0.1
 
@@ -12,21 +12,18 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME_LOW_VOLTAGE_BASE: low_voltage_base
-#  IMAGE_NAME: ${{ github.repository }}
 
 jobs:
   build-low-voltage-base:
     runs-on: ubuntu-latest
     steps:
-    permissions:
-      packages: write
       - name: Checkout
         uses: actions/checkout@v3
       - name: Docker metadata
         id: meta
         uses: docker/metadata-action@v3
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_LOW_VOLTAGE_BASE }}
+          images: ${{ env.REGISTRY }}/${{ github.actor }}/${{ env.IMAGE_NAME_LOW_VOLTAGE_BASE }}
           tags: |
             type=ref,event=tag
             type=semver,pattern={{version}}
@@ -39,7 +36,6 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
-      
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
@@ -48,4 +44,3 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-     
