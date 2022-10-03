@@ -8,7 +8,6 @@ from unittest.mock import patch, MagicMock
 
 
 class TestHMP(unittest.TestCase):
-
     def test_HMP(self):
         with patch("tracker_dcs_low_voltage.low_voltage.hmp.visa") as mock_visa:
             from tracker_dcs_low_voltage.low_voltage import hmp
