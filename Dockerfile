@@ -17,8 +17,8 @@ RUN yum install -y rpm && \
 
 WORKDIR /usr/app/low_voltage/
 RUN pwd
-#COPY requirements ./requirements
-#RUN python3 -m pip install --no-cache-dir -r requirements/docker.txt
+COPY requirements ./requirements
+RUN python3 -m pip install --no-cache-dir -r requirements/docker.txt
 
 #COPY setup.py .
 #RUN python3 -m pip install -e .
@@ -41,6 +41,6 @@ RUN yum install -y libusb && \
     yum install -y ni-daqmx && \
     yum install -y kernel-devel
 
-COPY requirements.txt ./
-RUN python3 -m pip install --no-cache-dir -r requirements.txt
+#COPY requirements.txt ./
+#RUN python3 -m pip install --no-cache-dir -r requirements.txt
 #COPY setup.py ./
