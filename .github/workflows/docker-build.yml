@@ -20,12 +20,11 @@ jobs:
       - name: Get latest tag
         id: get_latest_tag
         run: |
-          TAG=$(git tag --list --sort=-v:refname | head -n 1)
+          TAG=$(git describe --abbrev=0 --tags 2>/dev/null || echo "")
           if [[ -z "$TAG" ]]; then
             LATEST_TAG="v0.0.0"
           else
-            LAST_NUMBER=${TAG#v0.0.}
-            LATEST_TAG="v0.0.$LAST_NUMBER"
+            LATEST_TAG=$TAG
           fi
           echo "::set-output name=TAG::$LATEST_TAG"
 
@@ -42,19 +41,21 @@ jobs:
           fi
           echo "::set-output name=NEW_TAG::$NEW_TAG"
 
+      - name: Check if tag exists
+        id: check_tag
+        run: |
+          if [[ -z "$(git ls-remote --tags origin ${{ steps.determine_tag.outputs.NEW_TAG }})" ]]; then
+            echo "::set-output name=TAG_EXISTS::false"
+          else
+            echo "::set-output name=TAG_EXISTS::true"
+          fi
+
       - name: Create and push the new tag
-        if: ${{ github.ref == 'refs/heads/dev' }}
+        if: ${{ steps.check_tag.outputs.TAG_EXISTS }} == 'false'
         run: |
           NEW_TAG=${{ steps.determine_tag.outputs.NEW_TAG }}
-          EXISTS=$(git rev-parse $NEW_TAG >/dev/null 2>&1 && echo "true" || echo "false")
-          while [[ "$EXISTS" == "true" ]]; do
-            LAST_NUMBER=${NEW_TAG#v0.0.}
-            NEXT_NUMBER=$((LAST_NUMBER + 1))
-            NEW_TAG="v0.0.$NEXT_NUMBER"
-            EXISTS=$(git rev-parse $NEW_TAG >/dev/null 2>&1 && echo "true" || echo "false")
-          done
           git tag $NEW_TAG
-          git push origin $NEW_TAG || true
+          git push origin $NEW_TAG
 
       - name: Docker metadata
         id: meta
