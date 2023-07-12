@@ -46,10 +46,12 @@ jobs:
         if: ${{ github.ref == 'refs/heads/dev' }}
         run: |
           NEW_TAG=${{ steps.determine_tag.outputs.NEW_TAG }}
-          while git rev-parse $NEW_TAG >/dev/null 2>&1; do
+          EXISTS=$(git rev-parse $NEW_TAG >/dev/null 2>&1 && echo "true" || echo "false")
+          while [[ "$EXISTS" == "true" ]]; do
             LAST_NUMBER=${NEW_TAG#v0.0.}
             NEXT_NUMBER=$((LAST_NUMBER + 1))
             NEW_TAG="v0.0.$NEXT_NUMBER"
+            EXISTS=$(git rev-parse $NEW_TAG >/dev/null 2>&1 && echo "true" || echo "false")
           done
           git tag $NEW_TAG
           git push origin $NEW_TAG || true
