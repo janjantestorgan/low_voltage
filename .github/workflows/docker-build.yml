@@ -20,19 +20,21 @@ jobs:
       - name: Get latest tag
         id: get_latest_tag
         run: |
-          LATEST_TAG=$(git describe --abbrev=0 --tags)
-          if [[ $LATEST_TAG == '' ]]; then
+          TAG=$(git tag --list --sort=-v:refname | head -n 1)
+          if [[ -z "$TAG" ]]; then
             LATEST_TAG="v.0.0.0"
+          else
+            LATEST_TAG=$TAG
           fi
-          echo $LATEST_TAG
+          echo "::set-output name=TAG::$LATEST_TAG"
 
       - name: Determine new tag
         id: determine_tag
         run: |
-          LATEST_TAG=${{ steps.get_latest_tag.outputs.stdout }}
-          LAST_TAG=${LATEST_TAG#v.0.0.}
+          LATEST_TAG=${{ steps.get_latest_tag.outputs.TAG }}
+          LAST_TAG=${LATEST_TAG#v.}
           NEXT_NUMBER=$((LAST_TAG + 1))
-          NEW_TAG="v.0.0.$NEXT_NUMBER"
+          NEW_TAG="v.$NEXT_NUMBER"
           echo "::set-output name=NEW_TAG::$NEW_TAG"
 
       - name: Create and push the new tag
@@ -48,7 +50,7 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            ${{ steps.get_latest_tag.outputs.stdout }}
+            ${{ steps.get_latest_tag.outputs.TAG }}
             ${{ steps.determine_tag.outputs.NEW_TAG }}
             type=ref,event=branch
             type=semver,pattern={{version}}
