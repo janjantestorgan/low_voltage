@@ -35,6 +35,12 @@ jobs:
           LATEST_TAG=${{ steps.get_latest_tag.outputs.TAG }}
           LAST_TAG=${LATEST_TAG#v0.0.}
           NEXT_NUMBER=$((LAST_TAG + 1))
+
+          # Keep incrementing the last number until finding an available tag
+          while git rev-parse "v0.0.$NEXT_NUMBER" >/dev/null 2>&1; do
+            NEXT_NUMBER=$((NEXT_NUMBER + 1))
+          done
+
           NEW_TAG="v0.0.$NEXT_NUMBER"
           echo "::set-output name=NEW_TAG::$NEW_TAG"
 
