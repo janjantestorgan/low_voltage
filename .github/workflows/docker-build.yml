@@ -52,7 +52,7 @@ jobs:
             NEW_TAG="v0.0.$NEXT_NUMBER"
           done
           git tag $NEW_TAG
-          git push origin $NEW_TAG
+          git push origin $NEW_TAG || true
 
       - name: Docker metadata
         id: meta
