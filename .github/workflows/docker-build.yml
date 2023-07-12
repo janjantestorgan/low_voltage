@@ -21,12 +21,21 @@ jobs:
         id: get_latest_tag
         run: echo "::set-output name=TAG::$(git describe --abbrev=0 --tags)"
 
-      - name: Create and push tag
-        if: ${{ startsWith(github.ref, 'refs/heads/dev') }}
+      - name: Determine new tag
+        id: determine_tag
         run: |
-          TAG="v${{ github.run_number }}"
-          git tag $TAG
-          git push origin $TAG
+          LATEST_TAG=${{ steps.get_latest_tag.outputs.TAG }}
+          TAG_NUMBER=$(echo $LATEST_TAG | sed 's/v\.//')
+          TAG_NUMBER=$((TAG_NUMBER + 1))
+          NEW_TAG="v.$TAG_NUMBER"
+          echo "::set-output name=NEW_TAG::$NEW_TAG"
+
+      - name: Create and push tag
+        if: ${{ github.ref == 'refs/heads/dev' }}
+        run: |
+          NEW_TAG=${{ steps.determine_tag.outputs.NEW_TAG }}
+          git tag $NEW_TAG
+          git push origin $NEW_TAG
 
       - name: Docker metadata
         id: meta
