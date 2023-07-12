@@ -20,7 +20,7 @@ class HMP(object):
     # rm = visa.ResourceManager("")
     # HMP4040 = rm.open_resource("ASRL/dev/cu.MiTrueWirelessEBsBasic2::INSTR")
     rm = visa.ResourceManager("/usr/lib64/librsvisa.so@ivi")
-    HMP4040 = rm.open_resource("TCPIP::192.168.1.202::10002::SOCKET")
+    HMP4040 = rm.open_resource("TCPIP::192.168.1.202::5025::SOCKET")
     num_of_channels = 5
 
     def __init__(self, name: str, n_channels: int = 5):
