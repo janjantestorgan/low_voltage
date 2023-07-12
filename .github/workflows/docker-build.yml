@@ -25,9 +25,15 @@ jobs:
         id: determine_tag
         run: |
           LATEST_TAG=${{ steps.get_latest_tag.outputs.TAG }}
-          TAG_NUMBER=$(echo $LATEST_TAG | sed 's/v\.//')
-          TAG_NUMBER=$((TAG_NUMBER + 1))
-          NEW_TAG="v.$TAG_NUMBER"
+          if [[ $LATEST_TAG == '' ]]; then
+            NEW_TAG="v.0.0.1"
+          else
+            LAST_TAG=${LATEST_TAG#v.}
+            MAJOR=$(cut -d. -f1 <<< $LAST_TAG)
+            MINOR=$(cut -d. -f2 <<< $LAST_TAG)
+            NEXT_MINOR=$((MINOR + 1))
+            NEW_TAG="v.$MAJOR.$NEXT_MINOR"
+          fi
           echo "::set-output name=NEW_TAG::$NEW_TAG"
 
       - name: Create and push tag
