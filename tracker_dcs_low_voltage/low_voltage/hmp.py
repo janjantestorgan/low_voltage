@@ -41,7 +41,7 @@ class HMP(object):
         name: str,
         n_channels: int = 5,
         resource_path: str = "/usr/lib64/librsvisa.so@ivi",
-        socket: str = "TCPIP::192.168.1.202::10002::SOCKET",
+        socket: str = "TCPIP::192.168.1.202::2025::SOCKET",
     ):
         self.n_channels = n_channels
         self.name = name
