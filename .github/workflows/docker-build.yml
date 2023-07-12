@@ -36,7 +36,7 @@ jobs:
           fi
           echo "::set-output name=NEW_TAG::$NEW_TAG"
 
-      - name: Create and push tag
+      - name: Create and push the new tag
         if: ${{ github.ref == 'refs/heads/dev' }}
         run: |
           NEW_TAG=${{ steps.determine_tag.outputs.NEW_TAG }}
