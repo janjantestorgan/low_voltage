@@ -37,7 +37,9 @@ jobs:
         python3 -m pip install -e .
     - name: List installed packages
       run: pip list
-    
+    - name: List contents of tracker_dcs_low_voltage package
+      run: |
+        ls /home/runner/work/low_voltage/low_voltage/tracker_dcs_low_voltage
     - name: Docker-compose start mqtt 
       run: | 
         cd docker/test_tracker_dcs_low_voltage
@@ -49,10 +51,13 @@ jobs:
         cd -
     - name: Run black --check .
       run: black --check . --exclude _actions
+    
+    - name: Print current working directory
+      run: |
+        pwd
+        ls
     - name: Test with pytest
       run: |
-        pwd 
-        ls 
         cd unittests
         python3 -m pip install pytest-cov
         python3 -m pytest --cov=../ --cov-report=xml
