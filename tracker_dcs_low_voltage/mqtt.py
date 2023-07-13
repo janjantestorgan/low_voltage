@@ -1,6 +1,6 @@
 import os
 import paho.mqtt.client as mqtt
-from tracker_dcs_low_voltage.utils.logger import logger
+from .utils.logger import logger
 
 
 # mqtt_host = os.environ["MQTT_HOST"]
