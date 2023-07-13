@@ -40,6 +40,7 @@ jobs:
     - name: List contents of tracker_dcs_low_voltage package
       run: |
         ls /home/runner/work/low_voltage/low_voltage/tracker_dcs_low_voltage
+        ls /home/runner/work/low_voltage/low_voltage
     - name: Docker-compose start mqtt 
       run: | 
         cd docker/test_tracker_dcs_low_voltage
