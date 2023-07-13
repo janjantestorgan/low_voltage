@@ -24,7 +24,7 @@ jobs:
         id: tag
         run: |
           CURRENT_DATE=$(date -u +"%Y-%m-%d")
-          PREVIOUS_TAG=$(git describe --abbrev=0 --tags)
+          PREVIOUS_TAG=$(git describe --abbrev=0 --tags || echo "")
           if [ -n "$PREVIOUS_TAG" ]; then
             VERSION=${PREVIOUS_TAG#v}
             IFS='.' read -ra PARTS <<< "$VERSION"
