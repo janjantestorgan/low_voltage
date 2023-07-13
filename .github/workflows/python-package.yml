@@ -31,6 +31,8 @@ jobs:
         env
     - name: Install dependencies
       run: |
+        pwd
+        echo "---------------------"
         python3 -m pip install -r requirements/local.txt
         python3 -m pip install -e .
     

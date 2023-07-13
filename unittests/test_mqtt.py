@@ -1,6 +1,6 @@
 import pytest
 from fixtures import env
-from .. import mqtt as connect_to_mqtt
+from tracker_dcs_low_voltage import mqtt as connect_to_mqtt
 
 
 @pytest.fixture
