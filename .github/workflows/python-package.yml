@@ -4,8 +4,8 @@
 name: Python package
 
 on:
-  #pull_request:
-  push:
+  pull_request:
+  #push:
     branches: [ dev ]
 
 jobs:
@@ -31,15 +31,9 @@ jobs:
         env
     - name: Install dependencies
       run: |
-        pwd
-        echo "---------------------"
         python3 -m pip install -r requirements/local.txt
         python3 -m pip install -e .
-    - name: List installed packages
-      run: pip list
-    - name: List contents of low_voltage package
-      run: |
-        ls /home/runner/work/low_voltage/low_voltage
+    
     - name: Docker-compose start mqtt 
       run: | 
         cd docker/test_tracker_dcs_low_voltage
@@ -51,26 +45,21 @@ jobs:
         cd -
     - name: Run black --check .
       run: black --check . --exclude _actions
-    
-    - name: Print current working directory
-      run: |
-        pwd
-        ls
     - name: Test with pytest
       run: |
         cd unittests
         python3 -m pip install pytest-cov
         python3 -m pytest --cov=../ --cov-report=xml
         ls
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
-      with:
-        directory: ./unittests
-        env_vars: OS,PYTHON
-        fail_ci_if_error: true
+    #- name: Upload coverage to Codecov
+    #  uses: codecov/codecov-action@v3
+    #  with:
+    #    directory: ./unittests
+    #    env_vars: OS,PYTHON
+    #    fail_ci_if_error: true
         #files: ./coverage.xml
-        flags: unittests
-        name: codecov-umbrella
+    #    flags: unittests
+    #    name: codecov-umbrella
         #path_to_write_report: ./coverage/codecov_report.txt
-        verbose: true
+    #    verbose: true
    

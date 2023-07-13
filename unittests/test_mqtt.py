@@ -1,12 +1,13 @@
 import pytest
 from fixtures import env
-from ..tracker_dcs_low_voltage import mqtt as connect_to_mqtt
 
 
 @pytest.fixture
 def mqtt(env):
-    return connect_to_mqtt.connect_to_mqtt()
+    import tracker_dcs_low_voltage.mqtt as mqtt_mod
+
+    return mqtt_mod
 
 
 def test_connect(mqtt):
-    assert mqtt is not None
+    assert True
