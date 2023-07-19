@@ -3,9 +3,8 @@ from dataclasses import dataclass
 import time
 import json
 
-#import visa
+# import visa
 import pyvisa as visa
-
 from typing import Union
 
 
@@ -17,29 +16,9 @@ class Channel(object):
     # curr: float =0.
 
 
-
-#def get_HMP4040(resource_path, socket):
-#    rm = visa.ResourceManager(resource_path)
-#    HMP4040 = rm.open_resource(socket)
-#    HMP4040.read_termination = "\n"
-#    HMP4040.write_termination = "\n"
-#    HMP4040.write("*IDN?")  # the instrument identification.
-#    idn = HMP4040.read()
-#    print("IDN:", idn)
-#    HMP4040.set_visa_attribute(visa.constants.VI_ATTR_TERMCHAR_EN, True)
-#    attr = HMP4040.get_visa_attribute(visa.constants.VI_ATTR_TERMCHAR_EN)
-#    print("Attrib. TERMCHAR_EN:", attr)
-#    HMP4040.set_visa_attribute(visa.constants.VI_ATTR_SUPPRESS_END_EN, False)
-#    attr = HMP4040.get_visa_attribute(visa.constants.VI_ATTR_SUPPRESS_END_EN)
-#    print("Attrib. SUPPRESS_END_EN:", attr)
-#    print()
-#    return HMP4040
-
 class HMP(object):
-    # rm = visa.ResourceManager("")
-    # HMP4040 = rm.open_resource("ASRL/dev/cu.MiTrueWirelessEBsBasic2::INSTR")
     rm = visa.ResourceManager("/usr/lib64/librsvisa.so@ivi")
-    HMP4040 = rm.open_resource("TCPIP::192.168.1.202::5025::SOCKET")
+    HMP4040 = rm.open_resource("TCPIP::192.168.1.202::10002::SOCKET")
     num_of_channels = 5
 
     def __init__(self, name: str, n_channels: int = 5):
@@ -60,7 +39,6 @@ class HMP(object):
         print("Attrib. SUPPRESS_END_EN:", attr)
         print()
 
-
     def command(self, topic: str, message: Union[bytes, float, int]) -> None:
         device, cmd, command, channel = topic.split("/")[1:]
         if cmd != "cmd":
@@ -71,7 +49,6 @@ class HMP(object):
         nchannel = int(channel)
         if command == "switch":
             cmd = "INST:NSEL " + channel  # selects a channel on LV device
-
             print(f"CMD to select a channel in LV {cmd}")
             self.HMP4040.write(cmd)
             self.HMP4040.write("INST:NSEL?")  # queries number of the channel selection

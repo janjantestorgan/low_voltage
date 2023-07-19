@@ -16,6 +16,7 @@ RUN yum install -y rpm && \
     yum install -y unzip 
 
 WORKDIR /usr/app/low_voltage/
+RUN pwd
 
 COPY requirements ./requirements
 RUN python3 -m pip install --no-cache-dir -r requirements/docker.txt

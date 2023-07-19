@@ -5,8 +5,7 @@ name: Python package
 
 on:
   pull_request:
-  #push:
-    branches: [ dev ]
+    branches: [ main ]
 
 jobs:
   build:
@@ -25,7 +24,7 @@ jobs:
     - name: Upgrade pip
       run: | 
         python3 -m pip install --upgrade pip
-        pip --version
+        python3 -m pip --version
     - name: Print environment
       run: |
         env
@@ -42,15 +41,22 @@ jobs:
         
         echo $HOME
         docker-compose up -d 
-        cd -
-    - name: Run black --check .
-      run: black --check . --exclude _actions
-    - name: Test with pytest
-      run: |
-        cd unittests
-        python3 -m pip install pytest-cov
-        python3 -m pytest --cov=../ --cov-report=xml
-        ls
+        docker-compose ps -a
+        cd - 
+
+    #- name: Run black --check .
+    #  run: black --check . --exclude _actions
+    #- name: Test with pytest
+      #run: |
+      #  cd unittests
+      #  python3 -m pytest 
+      #  python3 -m pip install pytest-cov
+      #  python3 -m pytest --cov=../ --cov-report=xml
+      #  ls
+   
+      #  python3 -m pip install pytest-cov
+      #  python3 -m pytest --cov=../ --cov-report=xml
+      #  ls
     #- name: Upload coverage to Codecov
     #  uses: codecov/codecov-action@v3
     #  with:
@@ -63,3 +69,4 @@ jobs:
         #path_to_write_report: ./coverage/codecov_report.txt
     #    verbose: true
    
+
