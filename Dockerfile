@@ -17,6 +17,7 @@ RUN yum install -y rpm && \
 
 WORKDIR /usr/app/low_voltage/
 RUN pwd
+
 COPY requirements ./requirements
 RUN python3 -m pip install --no-cache-dir -r requirements/docker.txt
 
@@ -43,4 +44,4 @@ RUN yum install -y libusb && \
 
 #COPY requirements.txt ./
 #RUN python3 -m pip install --no-cache-dir -r requirements.txt
-#COPY setup.py ./
+

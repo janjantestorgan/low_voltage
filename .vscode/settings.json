@@ -1,0 +1,12 @@
+{
+    "terminal.integrated.confirmOnExit": "always",
+    "terminal.integrated.cursorBlinking": true,
+    "terminal.integrated.detectLocale": "auto",
+    "terminal.integrated.shellIntegration.history": 10000,
+    "python.terminal.activateEnvInCurrentTerminal": true,
+    "python.terminal.focusAfterLaunch": true,
+    "python.terminal.executeInFileDir": false,
+    "terminal.integrated.env.osx": {
+    "PATH":""
+    }
+}
